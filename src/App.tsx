@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { Difficulty, fetchQuestions, QuestionState } from './api';
+import { GlobalStyle, Wrapper } from './App.styles';
 import QuestionCard, { UserAnswers } from './components/QuestionCard'
 
 
@@ -32,10 +33,10 @@ export default function App() {
   }
 
   const checkAnswer = (e: React.MouseEvent<HTMLButtonElement>) => {
-
-    const answer = e.currentTarget.value
-    const correct = answer === questions[number].correct_answer
-    if (correct) {
+    if (gameOver === false) {
+      const answer = e.currentTarget.value
+      const correct = answer === questions[number].correct_answer
+      if (correct) setScore((prev) => prev + 1);
       const userAnswerObj: UserAnswers = {
         question: questions[number].question,
         answer,
@@ -44,8 +45,6 @@ export default function App() {
       }
       setUserAnswers(prev => [...prev, userAnswerObj])
     }
-
-
   }
 
   const next = () => {
@@ -57,11 +56,12 @@ export default function App() {
     setNumber(nextQuestion)
   }
 
-  return (
-    <div className="App">
+  return (<>
+    <GlobalStyle />
+    <Wrapper>
       <h1>Quiz App</h1>
       {(gameOver === false) || (userAnswers.length !== TOTAL_QUESTIONS) && (<button className="start" onClick={startTrivia}>Start</button>)}
-      {(gameOver === false && <p className="score">{userAnswers.length}</p>)}
+      {(gameOver === false && <p className="score">{score}</p>)}
       {(loading === true) && <p>Loading Question...</p>}
       {(loading === false) && (gameOver === false) && <QuestionCard
         questionNum={number + 1}
@@ -74,6 +74,7 @@ export default function App() {
         (loading === false) && (gameOver === false) && (userAnswers.length === number + 1) && (number !== TOTAL_QUESTIONS - 1) &&
         <button className="next" onClick={next}>Next</button>
       }
-    </div>
+    </Wrapper>
+  </>
   )
 }
