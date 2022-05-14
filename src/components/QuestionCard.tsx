@@ -1,24 +1,9 @@
 import React from 'react'
+import { QuestionCardProps } from '../types';
 import { ButtonWrapper, Wrapper } from './QuestionCard.styles';
 
-export type UserAnswers = {
-    question: string;
-    answer: string;
-    correct: boolean;
-    correctAnswer: string
-}
 
-
-type Props = {
-    question: string;
-    answers: string[];
-    callback: (e: React.MouseEvent<HTMLButtonElement>) => void;
-    userAnswer: UserAnswers | undefined;
-    questionNum: number
-    totalQuestion: number
-}
-
-const QuestionCard: React.FC<Props> = ({
+const QuestionCard: React.FC<QuestionCardProps> = ({
     question,
     answers,
     callback,

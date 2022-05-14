@@ -1,12 +1,10 @@
 import React, { useState } from 'react'
-import { Difficulty, fetchQuestions, QuestionState } from './api';
+import { fetchQuestions } from './config/api';
+import { Difficulty, QuestionState, UserAnswers } from './types';
 import { GlobalStyle, Wrapper } from './App.styles';
-import QuestionCard, { UserAnswers } from './components/QuestionCard'
-
+import QuestionCard from './components/QuestionCard'
 
 const TOTAL_QUESTIONS: number = 10
-
-
 
 export default function App() {
 
@@ -23,7 +21,6 @@ export default function App() {
     setGameOver(false)
 
     const questions = await fetchQuestions(TOTAL_QUESTIONS, Difficulty.EASY)
-    console.log("questions ========> ", questions)
     setQuestions(questions)
     setScore(0)
     setUserAnswers([])
